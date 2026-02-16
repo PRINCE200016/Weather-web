@@ -1,0 +1,243 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --bg-dark: #020202;
+    --primary-blue: #007aff;
+    --accent-cyan: #5ac8fa;
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --text-main: #ffffff;
+    --text-dim: rgba(255, 255, 255, 0.5);
+    --card-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.8);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    overflow: hidden;
+    perspective: 2000px;
+    /* Crucial for 3D */
+}
+
+/* Dynamic Mesh Background */
+body::before {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    z-index: -1;
+    background:
+        radial-gradient(circle at 30% 30%, rgba(0, 122, 255, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 70% 70%, rgba(90, 200, 250, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+    animation: backgroundFlow 20s ease-in-out infinite alternate;
+}
+
+@keyframes backgroundFlow {
+    from {
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    to {
+        transform: translate(5%, 5%) rotate(5deg);
+    }
+}
+
+.mainContainer {
+    width: 90%;
+    max-width: 420px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+    border: 1px solid var(--glass-border);
+    border-radius: 40px;
+    padding: 40px;
+    box-shadow: var(--card-shadow);
+    transform-style: preserve-3d;
+    /* Enable 3D for children */
+    transition: transform 0.1s ease-out, box-shadow 0.3s ease;
+    position: relative;
+    z-index: 10;
+}
+
+/* Parallax elements inside the card */
+.searchInput,
+.weatherDetails,
+.cityDetails,
+.additionalInfo {
+    transform: translateZ(50px);
+    /* Lift elements off the card base */
+}
+
+.weatherIcon img {
+    transform: translateZ(100px);
+    /* More depth for the icon */
+    width: 150px;
+    height: 150px;
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.5));
+    animation: float3D 5s ease-in-out infinite;
+}
+
+@keyframes float3D {
+
+    0%,
+    100% {
+        transform: translateZ(100px) translateY(0);
+    }
+
+    50% {
+        transform: translateZ(130px) translateY(-15px);
+    }
+}
+
+/* Better 3D Info Cards */
+.additionalInfo {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    transform: translateZ(40px);
+}
+
+.infoCard {
+    background: rgba(255, 255, 255, 0.04);
+    padding: 24px 16px;
+    border-radius: 24px;
+    border: 1px solid var(--glass-border);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-style: preserve-3d;
+}
+
+.infoCard:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateZ(30px) scale(1.05);
+    /* Push card out further */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.infoCard i {
+    font-size: 1.4rem;
+    color: var(--primary-blue);
+    margin-bottom: 15px;
+    display: block;
+    transform: translateZ(20px);
+}
+
+/* Search Bar Depth */
+input#searchInput {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 18px 24px;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+input#searchInput:focus {
+    transform: translateZ(10px);
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 20px rgba(0, 122, 255, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+#searchButton {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%) translateZ(20px);
+    width: 50px;
+    height: 50px;
+    background: var(--primary-blue);
+    border: none;
+    border-radius: 16px;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 122, 255, 0.4);
+}
+
+/* Welcome State Text */
+.welcome-state .desc {
+    font-size: 3rem;
+    font-weight: 800;
+    letter-spacing: -2px;
+    background: linear-gradient(to bottom, #fff, #888);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transform: translateZ(60px);
+}
+
+.underline-animation {
+    position: relative;
+    padding-bottom: 8px;
+    font-weight: 500;
+}
+
+.underline-animation::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--primary-blue);
+    transition: width 0.6s ease, left 0.6s ease;
+    transform: translateZ(20px);
+}
+
+.mainContainer:hover .underline-animation::after {
+    width: 100%;
+    left: 0;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px) translateZ(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) translateZ(0);
+    }
+}
+
+#tempValue {
+    font-size: 5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    margin: 10px 0;
+}
+
+@media (max-width: 480px) {
+    body {
+        perspective: none;
+    }
+
+    .mainContainer {
+        transform: none !important;
+    }
+
+    .infoCard:hover {
+        transform: translateY(-5px);
+    }
+}

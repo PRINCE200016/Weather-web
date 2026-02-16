@@ -18,7 +18,7 @@ import com.google.gson.JsonObject;
 /**
  * Servlet implementation class MyServlet
  */
-@WebServlet(name = "MyServlet", urlPatterns = {"/MyServlet"})
+@WebServlet(name = "MyServlet", urlPatterns = { "/MyServlet" })
 public class MyServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -26,56 +26,83 @@ public class MyServlet extends HttpServlet {
         super();
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         response.getWriter().append("Served at: ").append(request.getContextPath());
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String apiKey = "ce1975c094e06d6265fbf681defdf0fc";
         String city = request.getParameter("city");
-        String apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
+
+        if (city == null || city.trim().isEmpty()) {
+            city = "Delhi"; // Default city
+        }
+
+        // URL encoding for city name to handle spaces and special characters
+        String encodedCity = java.net.URLEncoder.encode(city, "UTF-8");
+        String apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + encodedCity + "&appid=" + apiKey;
 
         try {
             URL url = new URL(apiUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
-            InputStream inputStream = connection.getInputStream();
-            InputStreamReader reader = new InputStreamReader(inputStream);
-            Scanner scanner = new Scanner(reader);
-            StringBuilder responseContent = new StringBuilder();
+            int responseCode = connection.getResponseCode();
+            if (responseCode == 200) {
+                InputStream inputStream = connection.getInputStream();
+                InputStreamReader reader = new InputStreamReader(inputStream);
+                Scanner scanner = new Scanner(reader);
+                StringBuilder responseContent = new StringBuilder();
 
-            while (scanner.hasNext()) {
-                responseContent.append(scanner.nextLine());
+                while (scanner.hasNext()) {
+                    responseContent.append(scanner.nextLine());
+                }
+                scanner.close();
+
+                // Parse the JSON response
+                Gson gson = new Gson();
+                JsonObject jsonObject = gson.fromJson(responseContent.toString(), JsonObject.class);
+
+                // Extract and set attributes
+                long dateTimestamp = jsonObject.get("dt").getAsLong() * 1000;
+                String date = new Date(dateTimestamp).toString();
+
+                JsonObject main = jsonObject.getAsJsonObject("main");
+                double temperatureKelvin = main.get("temp").getAsDouble();
+                int temperatureCelsius = (int) (temperatureKelvin - 273.15);
+
+                double feelsLikeKelvin = main.get("feels_like").getAsDouble();
+                int feelsLikeCelsius = (int) (feelsLikeKelvin - 273.15);
+
+                int humidity = main.get("humidity").getAsInt();
+                int pressure = main.get("pressure").getAsInt();
+
+                double windSpeed = jsonObject.getAsJsonObject("wind").get("speed").getAsDouble();
+                int visibility = jsonObject.has("visibility") ? jsonObject.get("visibility").getAsInt() : 0;
+
+                String weatherCondition = jsonObject.getAsJsonArray("weather").get(0).getAsJsonObject().get("main")
+                        .getAsString();
+
+                request.setAttribute("date", date);
+                request.setAttribute("city", city);
+                request.setAttribute("temperature", temperatureCelsius);
+                request.setAttribute("feelsLike", feelsLikeCelsius);
+                request.setAttribute("weatherCondition", weatherCondition);
+                request.setAttribute("humidity", humidity);
+                request.setAttribute("pressure", pressure);
+                request.setAttribute("windSpeed", windSpeed);
+                request.setAttribute("visibility", visibility / 1000.0); // Convert to km
+                request.setAttribute("weatherData", responseContent.toString());
+            } else {
+                request.setAttribute("error", "City not found or API error. (Code: " + responseCode + ")");
             }
-            scanner.close();
-
-            // Parse the JSON response
-            Gson gson = new Gson();
-            JsonObject jsonObject = gson.fromJson(responseContent.toString(), JsonObject.class);
-
-            // Extract and set attributes
-            long dateTimestamp = jsonObject.get("dt").getAsLong() * 1000;
-            String date = new Date(dateTimestamp).toString();
-
-            double temperatureKelvin = jsonObject.getAsJsonObject("main").get("temp").getAsDouble();
-            int temperatureCelsius = (int) (temperatureKelvin - 273.15);
-
-            int humidity = jsonObject.getAsJsonObject("main").get("humidity").getAsInt();
-            double windSpeed = jsonObject.getAsJsonObject("wind").get("speed").getAsDouble();
-            String weatherCondition = jsonObject.getAsJsonArray("weather").get(0).getAsJsonObject().get("main").getAsString();
-
-            request.setAttribute("date", date);
-            request.setAttribute("city", city);
-            request.setAttribute("temperature", temperatureCelsius);
-            request.setAttribute("weatherCondition", weatherCondition);
-            request.setAttribute("humidity", humidity);
-            request.setAttribute("windSpeed", windSpeed);
-            request.setAttribute("weatherData", responseContent.toString());
 
             connection.disconnect();
         } catch (IOException e) {
             e.printStackTrace();
+            request.setAttribute("error", "Network error occurred.");
         }
 
         // Forward the request to the index.jsp page for rendering
