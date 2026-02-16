@@ -30,7 +30,7 @@ COPY --from=builder /app/target/Weather-web.war /opt/jetty/webapps/ROOT.war
 # Create minimal Jetty base
 RUN mkdir -p /opt/jetty-base/webapps && \
     cd /opt/jetty-base && \
-    java -jar /opt/jetty/start.jar --create-startd --add-modules=http,deploy,annotations
+    java -jar /opt/jetty/start.jar --create-startd --add-modules=http,ee10-deploy,ee10-annotations
 
 # Configure Jetty to use our base
 ENV JETTY_HOME=/opt/jetty
