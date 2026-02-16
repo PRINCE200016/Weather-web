@@ -1,26 +1,53 @@
 <!DOCTYPE html>
-<html>
-<head>
- <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link rel="stylesheet" href="style.css" />
+<html lang="en">
 
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkyCast | Premium Weather</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
+
 <body>
-<div style="color:white; text-align:center">
-<img src="image/weather-logo.png" style=" height: auto;width: auto;filter: drop-shadow(10px 10px 10px black);">
-    <h1>Welcome to the Weather Web App</h1>
-  
- 
-    <h2>Technologies Used: </h2> <p>HTML, CSS, JS, Java, Servlet, JSP, OpenWeather API</p>
-      <form action="MyServlet" method="post" class="searchInput">
-            <input type="text" placeholder="Enter City Name" id="searchInput" value="New Delhi" name="city"/>
-            <button id="searchButton"><i class="fa-solid fa-magnifying-glass"></i></button>
-      </form>    
- </div>
- 
+
+  <div class="mainContainer">
+    <form action="MyServlet" method="post" class="searchInput">
+      <input type="text" placeholder="Search City..." id="searchInput" name="city" value="New Delhi" autocomplete="off"
+        required />
+      <button id="searchButton" type="submit">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </form>
+
+    <div class="weatherDetails welcome-state">
+      <div class="cityDetails">
+        <div class="desc">SkyCast</div>
+        <div class="date">PREMIUM WEATHER INTELLIGENCE</div>
+      </div>
+
+      <!-- Static showcase for HTML-only preview -->
+      <div class="additionalInfo" style="margin-top: 40px; opacity: 0.7;">
+        <div class="infoCard">
+          <i class="fa-solid fa-wind"></i>
+          <div>
+            <span>DYNAMIC</span>
+            <h3>Animations</h3>
+          </div>
+        </div>
+        <div class="infoCard">
+          <i class="fa-solid fa-cube"></i>
+          <div>
+            <span>INTERACTIVE</span>
+            <h3>3D Effects</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="javascript.js"></script>
 </body>
+
 </html>

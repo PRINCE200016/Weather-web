@@ -33,7 +33,8 @@ public class MyServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String apiKey = "ce1975c094e06d6265fbf681defdf0fc";
+        String envApiKey = System.getenv("OPENWEATHER_API_KEY");
+        String apiKey = (envApiKey != null && !envApiKey.isEmpty()) ? envApiKey : "ce1975c094e06d6265fbf681defdf0fc";
         String city = request.getParameter("city");
 
         if (city == null || city.trim().isEmpty()) {
