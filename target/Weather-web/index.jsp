@@ -46,45 +46,33 @@
                     <div class="additionalInfo">
                         <div class="infoCard">
                             <i class="fa-solid fa-temperature-three-quarters"></i>
-                            <div>
-                                <span>FEELS LIKE</span>
-                                <h3>${feelsLike}°C</h3>
-                            </div>
+                            <span>FEELS LIKE</span>
+                            <h3>${feelsLike}°C</h3>
                         </div>
                         <div class="infoCard">
                             <i class="fa-solid fa-droplet"></i>
-                            <div>
-                                <span>HUMIDITY</span>
-                                <h3>${humidity}%</h3>
-                            </div>
+                            <span>HUMIDITY</span>
+                            <h3>${humidity}%</h3>
                         </div>
                         <div class="infoCard">
                             <i class="fa-solid fa-wind"></i>
-                            <div>
-                                <span>WIND SPEED</span>
-                                <h3>${windSpeed} km/h</h3>
-                            </div>
+                            <span>WIND SPEED</span>
+                            <h3>${windSpeed} km/h</h3>
                         </div>
                         <div class="infoCard">
                             <i class="fa-solid fa-gauge"></i>
-                            <div>
-                                <span>PRESSURE</span>
-                                <h3>${pressure} hPa</h3>
-                            </div>
+                            <span>PRESSURE</span>
+                            <h3>${pressure} hPa</h3>
                         </div>
                         <div class="infoCard">
                             <i class="fa-solid fa-eye"></i>
-                            <div>
-                                <span>VISIBILITY</span>
-                                <h3>${visibility} km</h3>
-                            </div>
+                            <span>VISIBILITY</span>
+                            <h3>${visibility} km</h3>
                         </div>
                         <div class="infoCard">
                             <i class="fa-solid fa-cloud-sun"></i>
-                            <div>
-                                <span>CONDITION</span>
-                                <h3>${weatherCondition}</h3>
-                            </div>
+                            <span>CONDITION</span>
+                            <h3>${weatherCondition}</h3>
                         </div>
                     </div>
                 </div>

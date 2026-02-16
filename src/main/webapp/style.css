@@ -1,135 +1,347 @@
-@charset "UTF-8";
-    * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Ubuntu", sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --bg-dark: #000000;
+    --primary-blue: #007aff;
+    --accent-cyan: #5ac8fa;
+    --glass-bg: rgba(255, 255, 255, 0.02);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --text-main: #ffffff;
+    --text-dim: rgba(255, 255, 255, 0.4);
+    --card-shadow: 0 60px 120px -30px rgba(0, 0, 0, 1);
+    --border-glow: linear-gradient(90deg, #007aff, #5ac8fa, #007aff);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
 }
 
 body {
-  display: flex;
-  height: 100vh;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(to right,  #2b40ff,#07121a);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    overflow: hidden;
+    perspective: 3000px;
+    padding: 20px 10px;
 }
 
+/* Advanced Animated Mesh Background */
+body::before {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    z-index: -1;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(0, 122, 255, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(90, 200, 250, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 50% 10%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+    animation: backgroundFlow 60s linear infinite;
+}
+
+@keyframes backgroundFlow {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.particle {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.mouse-glow {
+    position: fixed;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(0, 122, 255, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+/* ULTRA MODERN CONTAINER */
 .mainContainer {
-  width: 25rem;
-  height: auto;
-  border-radius: 1rem;
-  background: #fff;
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
-			0 10px 10px rgba(0,0,0,0.22);
+    width: 100%;
+    max-width: 460px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+    border-radius: 40px;
+    padding: 50px 40px;
+    box-shadow: var(--card-shadow);
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out, box-shadow 0.4s ease;
+    z-index: 10;
+    position: relative;
+    overflow: visible;
+    /* To allow 3D layers to spill out */
 }
 
-.searchInput {
-  width: 100%;
-  display: flex;
-  padding: 1rem 1rem;
-  justify-content: center;
+/* Animated Gradient Border */
+.mainContainer::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 42px;
+    padding: 2px;
+    background: conic-gradient(from 0deg,
+            transparent,
+            var(--primary-blue),
+            var(--accent-cyan),
+            var(--primary-blue),
+            transparent);
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: borderRotate 4s linear infinite;
+    pointer-events: none;
 }
 
-.searchInput input {
-  width: 100%;
-  height: 2rem;
-  outline: none;
-  font-size: 1rem;
-  color: #525050;
-  padding: 0.2rem 0.5rem;
-  border-radius: 1.5rem;
-  border: 1px solid #b3b3b3;
+@keyframes borderRotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
-.searchInput input:focus {
-  border: 1px solid #9c9dde;
+/* Dynamic 3D Floating Layers */
+.mainContainer::after {
+    content: '';
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(0, 122, 255, 0.2) 0%, transparent 80%);
+    border-radius: 50%;
+    transform: translateZ(-50px);
+    filter: blur(20px);
+    pointer-events: none;
 }
 
-.searchInput button {
-  width: 2.2rem;
-  height: 2rem;
-  cursor: pointer;
-  color: #9b9b9b;
-  border-radius: 50%;
-  margin-left: 0.4rem;
-  transition: all 0.3s ease;
-  background-color: #fff;
-  border: 1px solid #b3b3b3;
-}
-
-.searchInput button:hover {
-  color: #fff;
-  background-color: #9c9dde;
-  border: 1px solid #9c9dde;
-}
-
-.weatherIcon {
-  display: flex;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  justify-content: center;
+.searchInput,
+.weatherDetails,
+.cityDetails,
+.additionalInfo {
+    transform: translateZ(60px);
 }
 
 .weatherIcon img {
-  max-width: 100%;
-  width: 8rem;
+    transform: translateZ(120px);
+    width: 160px;
+    filter: drop-shadow(0 30px 50px rgba(0, 0, 0, 0.8));
+    animation: float3DPremium 8s ease-in-out infinite;
 }
 
-.weatherDetails .temp{
- font-size: 2rem;
-}
-.cityDetails {
-  color: #323232;
-  font-size: 2.5rem;
-  text-align: center;
-  margin-bottom: 0.5rem;
-}
+@keyframes float3DPremium {
 
-.cityDetails .date {
-  color: #323232;
-  font-size: 1.5rem;
-  text-align: center;
-  margin-bottom: 0.5rem;
-}
+    0%,
+    100% {
+        transform: translateZ(120px) translateY(0) rotate(0deg);
+    }
 
-.windDetails {
-  display: flex;
-  margin-top: 1rem;
-  margin-bottom: 1.5rem;
-  justify-content: space-around;
+    25% {
+        transform: translateZ(150px) translateY(-20px) rotate(3deg);
+    }
+
+    75% {
+        transform: translateZ(130px) translateY(10px) rotate(-3deg);
+    }
 }
 
-.windDetails .humidityBox {
-  display: flex;
-  font-size: 1rem;
-  color: #323232;
+.additionalInfo {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    transform: translateZ(80px);
+    /* Lift grid higher */
+    margin-top: 40px;
 }
 
-.windDetails .humidity .humidityValue {
- text-align: center;
-  font-size: 2rem;
-  color: #323232;
+.infoCard {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 25px 15px;
+    border-radius: 30px;
+    border: 1px solid var(--glass-border);
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    transform-style: preserve-3d;
 }
 
-.windDetails .humidityBox img {
-  max-height: 3rem;
-  margin-right: 0.5rem;
+.infoCard:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateZ(40px) translateY(-10px) scale(1.05);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
 }
 
-.windDetails .windSpeed {
-  display: flex;
-  font-size: 1rem;
-  color: #323232;
+.infoCard i {
+    font-size: 1.6rem;
+    color: var(--primary-blue);
+    margin-bottom: 15px;
+    display: block;
+    transform: translateZ(20px);
+    filter: drop-shadow(0 0 15px rgba(0, 122, 255, 0.6));
 }
 
-.windDetails .windSpeed img {
-  max-height: 3rem;
-  margin-right: 0.5rem;
+.infoCard span {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transform: translateZ(10px);
 }
 
+.infoCard h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    transform: translateZ(30px);
+}
 
-image-logo{
-        height: auto;
-        width: auto;
-        filter: drop-shadow(20px 10px 10px black);
-      }
+.searchInput {
+    position: relative;
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+input#searchInput {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 25px;
+    padding: 20px 70px 20px 30px;
+    color: #fff;
+    font-size: 1.1rem;
+    outline: none;
+    transition: all 0.4s ease;
+}
+
+input#searchInput:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 40px rgba(0, 122, 255, 0.2);
+}
+
+#searchButton {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%) translateZ(30px);
+    width: 52px;
+    height: 52px;
+    background: var(--primary-blue);
+    border: none;
+    border-radius: 18px;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(0, 122, 255, 0.4);
+}
+
+/* Staggered Text Animations */
+.welcome-state .desc {
+    font-size: clamp(3rem, 15vw, 4.5rem);
+    font-weight: 800;
+    letter-spacing: -3px;
+    line-height: 1;
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: translateZ(100px) translateY(20px);
+    animation: revealText 1s cubic-bezier(0.23, 1, 0.32, 1) forwards 0.3s;
+}
+
+.welcome-state .date {
+    font-size: 0.9rem;
+    letter-spacing: 4px;
+    opacity: 0;
+    transform: translateZ(50px) translateY(10px);
+    animation: revealText 1s cubic-bezier(0.23, 1, 0.32, 1) forwards 0.6s;
+}
+
+@keyframes revealText {
+    to {
+        opacity: 1;
+        transform: translateZ(var(--z, 100px)) translateY(0);
+    }
+}
+
+#tempValue {
+    font-size: clamp(5rem, 20vw, 8rem);
+    font-weight: 800;
+    margin: 20px 0;
+    text-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* MOBILE OPTIMIZATION */
+@media (max-width: 500px) {
+    body {
+        perspective: none;
+    }
+
+    .mainContainer {
+        padding: 40px 25px;
+        transform: none !important;
+        border-radius: 40px;
+    }
+
+    .mainContainer::before {
+        border-radius: 42px;
+    }
+
+    .additionalInfo {
+        grid-template-columns: 1fr;
+        transform: none !important;
+    }
+
+    .infoCard {
+        display: flex;
+        align-items: center;
+        padding: 25px;
+        gap: 25px;
+        transform: none !important;
+    }
+
+    .infoCard i {
+        margin-bottom: 0;
+        transform: none !important;
+    }
+
+    .searchInput,
+    .weatherDetails,
+    .cityDetails,
+    .weatherIcon img {
+        transform: none !important;
+    }
+}
