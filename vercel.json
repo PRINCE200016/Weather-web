@@ -1,13 +1,17 @@
 {
   "functions": {
-    "api/**/*.java": {
-      "runtime": "vercel-community-java-runtime@1.0.0"
+    "src/main/java/Mypackage/*.java": {
+      "runtime": "vercel-community-java-runtime"
     }
   },
   "routes": [
     {
+      "src": "/MyServlet",
+      "dest": "src/main/java/Mypackage/MyServlet.java"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/index.jsp"
+      "dest": "src/main/webapp/$1"
     }
   ]
 }
