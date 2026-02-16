@@ -24,13 +24,13 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Copy WAR file
-COPY --from=builder /app/target/Weather-web.war /opt/jetty/webapps/ROOT.war
-
 # Create minimal Jetty base
 RUN mkdir -p /opt/jetty-base/webapps && \
     cd /opt/jetty-base && \
     java -jar /opt/jetty/start.jar --create-startd --add-modules=http,ee10-deploy,ee10-annotations
+
+# Copy WAR file to JETTY_BASE/webapps
+COPY --from=builder /app/target/Weather-web.war /opt/jetty-base/webapps/ROOT.war
 
 # Configure Jetty to use our base
 ENV JETTY_HOME=/opt/jetty
