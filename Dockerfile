@@ -36,10 +36,14 @@ COPY --from=builder /app/target/Weather-web.war /opt/jetty-base/webapps/ROOT.war
 ENV JETTY_HOME=/opt/jetty
 ENV JETTY_BASE=/opt/jetty-base
 
-# Expose port 7860 (Hugging Face default)
-EXPOSE 7860
+# IMPORTANT FOR HUGGING FACE: Fix permissions for default user (1000)
+RUN chown -R 1000:1000 /opt/jetty-base /opt/jetty
+USER 1000
+
+# Expose default port
+EXPOSE 8080
 
 WORKDIR /opt/jetty-base
 
-# Start Jetty
-CMD ["java", "-jar", "/opt/jetty/start.jar", "jetty.http.port=7860", "jetty.http.host=0.0.0.0"]
+# Start Jetty with dynamic PORT provided by Render
+CMD ["sh", "-c", "java -jar /opt/jetty/start.jar jetty.http.port=${PORT:-8080} jetty.http.host=0.0.0.0"]

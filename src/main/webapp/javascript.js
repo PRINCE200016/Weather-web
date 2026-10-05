@@ -4,30 +4,31 @@
 //  Frontend:    Vercel static hosting
 // ════════════════════════════════════════════════════════════════════════════
 
-// ⚠️  Replace this with your actual Hugging Face Space URL after deployment
-const BACKEND_URL = 'https://arjunrajawat-weather.hf.space/weather';
+// ⚠️ Replace 'your-render-url' with your actual Render URL after deployment
+// Dhyan rakhein, aapke pom.xml me context path '/Weather-web' set hai
+const BACKEND_URL = 'https://weather-web-1-l5aa.onrender.com';
 
 document.addEventListener('DOMContentLoaded', () => {
 
     // ── DOM references ────────────────────────────────────────────────────
-    const container       = document.querySelector('.mainContainer');
-    const searchInput     = document.getElementById('searchInput');
-    const searchButton    = document.getElementById('searchButton');
-    const weatherContent  = document.getElementById('weatherContent');
-    const welcomeState    = document.getElementById('welcomeState');
-    const errorMessage    = document.getElementById('errorMessage');
-    const errorText       = document.getElementById('errorText');
+    const container = document.querySelector('.mainContainer');
+    const searchInput = document.getElementById('searchInput');
+    const searchButton = document.getElementById('searchButton');
+    const weatherContent = document.getElementById('weatherContent');
+    const welcomeState = document.getElementById('welcomeState');
+    const errorMessage = document.getElementById('errorMessage');
+    const errorText = document.getElementById('errorText');
 
-    const weatherIcon     = document.getElementById('weather-icon');
-    const tempValueEl     = document.getElementById('tempValue');
-    const cityNameEl      = document.getElementById('cityName');
-    const dateValueEl     = document.getElementById('dateValue');
-    const feelsLikeEl     = document.getElementById('feelsLike');
-    const humidityEl      = document.getElementById('humidity');
-    const windSpeedEl     = document.getElementById('windSpeed');
-    const pressureEl      = document.getElementById('pressure');
-    const visibilityEl    = document.getElementById('visibility');
-    const weatherCondEl   = document.getElementById('weatherCondition');
+    const weatherIcon = document.getElementById('weather-icon');
+    const tempValueEl = document.getElementById('tempValue');
+    const cityNameEl = document.getElementById('cityName');
+    const dateValueEl = document.getElementById('dateValue');
+    const feelsLikeEl = document.getElementById('feelsLike');
+    const humidityEl = document.getElementById('humidity');
+    const windSpeedEl = document.getElementById('windSpeed');
+    const pressureEl = document.getElementById('pressure');
+    const visibilityEl = document.getElementById('visibility');
+    const weatherCondEl = document.getElementById('weatherCondition');
 
     // ── Particle system ───────────────────────────────────────────────────
     const particleContainer = document.createElement('div');
@@ -38,10 +39,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const p = document.createElement('div');
         p.className = 'particle';
         const size = Math.random() * 4 + 1;
-        p.style.width  = `${size}px`;
+        p.style.width = `${size}px`;
         p.style.height = `${size}px`;
-        p.style.left   = `${Math.random() * 100}vw`;
-        p.style.top    = `${Math.random() * 100}vh`;
+        p.style.left = `${Math.random() * 100}vw`;
+        p.style.top = `${Math.random() * 100}vh`;
         p.style.opacity = Math.random() * 0.4;
         particleContainer.appendChild(p);
 
@@ -77,8 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!container || window.innerWidth <= 500) return;
         if (!bounds) bounds = container.getBoundingClientRect();
         const center = {
-            x: e.clientX - bounds.left  - bounds.width  / 2,
-            y: e.clientY - bounds.top   - bounds.height / 2
+            x: e.clientX - bounds.left - bounds.width / 2,
+            y: e.clientY - bounds.top - bounds.height / 2
         };
         const distance = Math.sqrt(center.x ** 2 + center.y ** 2);
         container.style.transform = `
@@ -133,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function animateTemperature(target) {
         if (!tempValueEl || target === null || isNaN(target)) return;
-        const duration  = 3000;
+        const duration = 3000;
         const startTime = performance.now();
         function step(now) {
             const t = Math.min((now - startTime) / duration, 1);
@@ -148,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
         errorText.textContent = msg;
         errorMessage.style.display = 'flex';
         weatherContent.style.display = 'none';
-        welcomeState.style.display   = 'none';
+        welcomeState.style.display = 'none';
     }
 
     function hideError() {
@@ -156,12 +157,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showLoading() {
-        searchButton.innerHTML      = '<i class="fa-solid fa-sync fa-spin"></i>';
+        searchButton.innerHTML = '<i class="fa-solid fa-sync fa-spin"></i>';
         searchButton.style.pointerEvents = 'none';
     }
 
     function resetButton() {
-        searchButton.innerHTML      = '<i class="fa-solid fa-magnifying-glass"></i>';
+        searchButton.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i>';
         searchButton.style.pointerEvents = 'auto';
     }
 
@@ -183,12 +184,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Populate the UI
-            cityNameEl.textContent  = data.city;
+            cityNameEl.textContent = data.city;
             dateValueEl.textContent = data.date;
             feelsLikeEl.textContent = `${data.feelsLike}°C`;
-            humidityEl.textContent  = `${data.humidity}%`;
+            humidityEl.textContent = `${data.humidity}%`;
             windSpeedEl.textContent = `${data.windSpeed} km/h`;
-            pressureEl.textContent  = `${data.pressure} hPa`;
+            pressureEl.textContent = `${data.pressure} hPa`;
             visibilityEl.textContent = `${data.visibility} km`;
             weatherCondEl.textContent = data.weatherCondition;
 
@@ -196,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
             animateTemperature(data.temperature);
 
             // Show results, hide welcome
-            welcomeState.style.display   = 'none';
+            welcomeState.style.display = 'none';
             weatherContent.style.display = 'block';
 
         } catch (err) {
