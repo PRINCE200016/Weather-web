@@ -6,7 +6,7 @@
 
 // ⚠️ Replace 'your-render-url' with your actual Render URL after deployment
 // Dhyan rakhein, aapke pom.xml me context path '/Weather-web' set hai
-const BACKEND_URL = 'https://weather-web-1-l5aa.onrender.com';
+const BACKEND_URL = 'https://weather-web-1-l5aa.onrender.com/Weather-web/weather';
 
 document.addEventListener('DOMContentLoaded', () => {
 
