@@ -345,3 +345,53 @@ input#searchInput:focus {
         transform: none !important;
     }
 }
+
+/* ── Error message banner ─────────────────────────────────────────── */
+.error-message {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 59, 48, 0.12);
+    border: 1px solid rgba(255, 59, 48, 0.35);
+    border-radius: 18px;
+    padding: 18px 22px;
+    margin-bottom: 24px;
+    color: #ff6b6b;
+    font-size: 0.95rem;
+    font-weight: 500;
+    animation: fadeInDown 0.4s ease;
+}
+
+.error-message i {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Underline shimmer animation ──────────────────────────────────── */
+.underline-animation {
+    background: linear-gradient(90deg, var(--primary-blue), var(--accent-cyan), var(--primary-blue));
+    background-size: 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer {
+    0%   { background-position: 0% center; }
+    100% { background-position: 200% center; }
+}
+
+/* ── Search bar as div (not form) ─────────────────────────────────── */
+div.searchInput {
+    position: relative;
+    width: 100%;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+}

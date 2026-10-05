@@ -6,6 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SkyCast | Premium Weather</title>
+  <meta name="description" content="SkyCast – real-time weather intelligence with a stunning 3D interface.">
+
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
@@ -13,38 +15,88 @@
 <body>
 
   <div class="mainContainer">
-    <form action="MyServlet" method="post" class="searchInput">
-      <input type="text" placeholder="Search City..." id="searchInput" name="city" value="New Delhi" autocomplete="off"
-        required />
-      <button id="searchButton" type="submit">
+
+    <!-- Search bar – now uses JS fetch, not form POST -->
+    <div class="searchInput">
+      <input type="text" placeholder="Search City..." id="searchInput" name="city"
+        autocomplete="off" />
+      <button id="searchButton" type="button">
         <i class="fa-solid fa-magnifying-glass"></i>
       </button>
-    </form>
+    </div>
 
-    <div class="weatherDetails welcome-state">
-      <div class="cityDetails">
-        <div class="desc">SkyCast</div>
-        <div class="date">PREMIUM WEATHER INTELLIGENCE</div>
+    <!-- Error banner (hidden by default) -->
+    <div class="error-message" id="errorMessage" style="display:none;">
+      <i class="fa-solid fa-circle-exclamation"></i>
+      <span id="errorText"></span>
+    </div>
+
+    <!-- Weather result card (hidden until data loads) -->
+    <div id="weatherContent" class="weatherDetails" style="display:none;">
+      <div class="weatherIcon">
+        <img src="" alt="weather icon" id="weather-icon">
+        <h2 id="tempValue">--°C</h2>
       </div>
 
-      <!-- Static showcase for HTML-only preview -->
-      <div class="additionalInfo" style="margin-top: 40px; opacity: 0.7;">
+      <div class="cityDetails">
+        <div class="desc" id="cityName">--</div>
+        <div class="date" id="dateValue">--</div>
+      </div>
+
+      <div class="additionalInfo">
         <div class="infoCard">
-          <i class="fa-solid fa-wind"></i>
+          <i class="fa-solid fa-temperature-three-quarters"></i>
           <div>
-            <span>DYNAMIC</span>
-            <h3>Animations</h3>
+            <span>FEELS LIKE</span>
+            <h3 id="feelsLike">--°C</h3>
           </div>
         </div>
         <div class="infoCard">
-          <i class="fa-solid fa-cube"></i>
+          <i class="fa-solid fa-droplet"></i>
           <div>
-            <span>INTERACTIVE</span>
-            <h3>3D Effects</h3>
+            <span>HUMIDITY</span>
+            <h3 id="humidity">--%</h3>
+          </div>
+        </div>
+        <div class="infoCard">
+          <i class="fa-solid fa-wind"></i>
+          <div>
+            <span>WIND SPEED</span>
+            <h3 id="windSpeed">-- km/h</h3>
+          </div>
+        </div>
+        <div class="infoCard">
+          <i class="fa-solid fa-gauge"></i>
+          <div>
+            <span>PRESSURE</span>
+            <h3 id="pressure">-- hPa</h3>
+          </div>
+        </div>
+        <div class="infoCard">
+          <i class="fa-solid fa-eye"></i>
+          <div>
+            <span>VISIBILITY</span>
+            <h3 id="visibility">-- km</h3>
+          </div>
+        </div>
+        <div class="infoCard">
+          <i class="fa-solid fa-cloud-sun"></i>
+          <div>
+            <span>CONDITION</span>
+            <h3 id="weatherCondition">--</h3>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Welcome state (shown when no data yet) -->
+    <div id="welcomeState" class="weatherDetails welcome-state">
+      <div class="cityDetails">
+        <div class="desc">SkyCast</div>
+        <div class="date underline-animation">PREMIUM WEATHER INTELLIGENCE</div>
+      </div>
+    </div>
+
   </div>
 
   <script src="javascript.js"></script>
